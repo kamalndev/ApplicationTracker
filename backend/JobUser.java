@@ -3,7 +3,7 @@ import java.util.List;
 
 public class JobUser {
     int userID;
-    List<String> jobApplications = new ArrayList<>();
+    //List<JobApplication> jobApplications = new ArrayList<>();
 
     public void login(){
 
@@ -14,4 +14,5 @@ public class JobUser {
     public void logOut(){
 
     }
+
 }
