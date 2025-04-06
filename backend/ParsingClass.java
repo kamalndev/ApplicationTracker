@@ -1,5 +1,5 @@
-public class ParsingClass {
-    String formData;
+public class ParsingClass<T> {
+    T formData;
 
     public void connect(){
 

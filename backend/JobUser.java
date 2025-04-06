@@ -15,4 +15,7 @@ public class JobUser {
 
     }
 
+    public void addJob(){
+        
+    }
 }
