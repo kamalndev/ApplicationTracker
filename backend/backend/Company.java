@@ -5,7 +5,7 @@ import java.util.List;
 public class Company {
     String name;
     List<String> jobPositions = new ArrayList<>();
-    //List<JobApplication> jobApps = new ArrayList<>();
+    List<JobApplication> jobApps = new ArrayList<>();
     int numRecordedApps;
     int numSuccessApps;
 

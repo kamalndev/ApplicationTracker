@@ -3,7 +3,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JobApplication {
-    //Company company;
+    Company company;
     String jobPosition;
     String jobDescription;
     Long timeApplied;
