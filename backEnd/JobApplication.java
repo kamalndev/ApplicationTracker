@@ -4,6 +4,7 @@ import java.util.Map;
 
 public class JobApplication {
     Company company;
+    int appId;
     String jobPosition;
     String jobDescription;
     Long timeApplied;
@@ -15,9 +16,31 @@ public class JobApplication {
     int authorID;
     String appStatus;
     int jobID;
-    
-    public void updateStatus() {
 
+    public JobApplication (
+        Company company, String jobPosition, String jobDescription, Long timeApplied, Long dueDate,
+        String requirements, Boolean isPrivate, String appStatus, int jobID
+    ) {
+        this.company = company;
+        this.jobPosition = jobPosition;
+        this.jobDescription = jobDescription;
+        this.timeApplied = timeApplied;
+        this.dueDate = dueDate;
+        this.requirements = requirements;
+        this.isPrivate = isPrivate;
+        this.appStatus = appStatus;
+        this.jobID = jobID;
+
+        setJobPosition(appId, jobPosition);
+        setJobDescription(appId, jobDescription);
+        setApplicationDeadline(appId, dueDate);
+        setApplicationRequirements(appId, requirements);
+        
+    }
+    
+    public void updateStatus(String status) {
+        appStatus = status;
+        updateApplicationStatus(appId, status);
     }
 
     public void editComments() {
