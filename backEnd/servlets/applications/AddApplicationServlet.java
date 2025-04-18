@@ -6,16 +6,13 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
-
 import backEnd.DatabaseConnection.src.Database;
 
 @WebServlet("/api/applications")
@@ -84,7 +81,7 @@ public class AddApplicationServlet extends HttpServlet {
     private void sendErrorResponse(HttpServletResponse response, int statusCode, String message) throws IOException {
         response.setStatus(statusCode);
         response.setContentType("application/json");
-        
+
         Map<String, Object> ErrorResponseMap = new HashMap<>();
         ErrorResponseMap.put("success", false);
         ErrorResponseMap.put("message", message);
