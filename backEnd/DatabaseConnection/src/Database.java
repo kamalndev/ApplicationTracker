@@ -61,20 +61,23 @@ public class Database {
 	}
 
 	
-	public static void getJobApplicationsByUserId(int userId) {
+	public static List<JobApplications> getJobApplicationsByUserId(int userId) {
         String sql = "SELECT * FROM JobApplications WHERE user_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
+			List<JobApplication> apps;
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
-                    System.out.println("Application ID: " + rs.getInt("application_id"));
-                    System.out.println("Company: " + rs.getString("company"));
-                    System.out.println("Position: " + rs.getString("job_position"));
-                    System.out.println("Status: " + rs.getString("application_status"));
-                    System.out.println("Date Applied: " + rs.getTimestamp("time_applied"));
-                    System.out.println("----------------------------------");
+                	int appId = rs.getInt("application_id");
+                    String company = rs.getString("company");
+                    String position = rs.getString("job_position");
+                    String status = rs.getString("application_status");
+                    String time = rs.getTimestamp("time_applied");
+					JobApplication currApp = new JobApplication(company, position, appId, time, status);
+					apps.add(currApp);
                 }
             }
+			return apps;
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }

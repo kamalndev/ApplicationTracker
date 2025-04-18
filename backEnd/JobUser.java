@@ -15,7 +15,7 @@ public class JobUser {
 
     public void login(){
         //To-do: Fill jobApplications with data;
-        getJobApplicationsByUserId();
+        jobApplications = getJobApplicationsByUserId();
     }
     public void signUp(){
         addUser(username, password);
