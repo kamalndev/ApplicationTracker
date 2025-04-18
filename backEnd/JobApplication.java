@@ -26,6 +26,7 @@ public class JobApplication {
         this.appStatus = appStatus;
         this.appID = appID;
 
+        setCompany(appId, company);
         setJobPosition(appId, jobPosition);
         setJobDescription(appId, jobDescription);
         setApplicationDeadline(appId, dueDate);
@@ -33,6 +34,10 @@ public class JobApplication {
         
     }
     
+    public void deleteApplication(){
+        deleteApplicationById(appId);
+    }
+
     public void updateStatus(String status) {
         appStatus = status;
         updateApplicationStatus(appId, status);

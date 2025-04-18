@@ -14,9 +14,13 @@ public class JobUser {
     }
 
     public void login(){
-        //To-do: Fill jobApplications with data;
         jobApplications = getJobApplicationsByUserId();
     }
+
+    public void deleteUser(){
+        deleteUserById(userID);
+    }
+
     public void signUp(){
         addUser(username, password);
     }
