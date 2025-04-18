@@ -44,18 +44,23 @@ public class JobApplication {
     }
 
     public void editComments() {
-
     }
 
-    public void editJobDescription() {
-
+    public void editJobDescription(String newDescription) {
+    	
+    	jobDescription = newDescription;
+    	setJobDescription(appId, newDescription);
     }
 
-    public void changePrivacy() {
-
+    public void changePrivacy(boolean private) {
+    	isPrivate = private;
     }
 
     public void addPublicComment(int userID){
         
+    }
+    
+    public String getJobPosition() {
+    	return jobPosition;
     }
 }

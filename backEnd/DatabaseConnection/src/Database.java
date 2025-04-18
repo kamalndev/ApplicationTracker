@@ -1,13 +1,15 @@
-import java.sql.Connection;
+import java.sql.Connection; 
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.*;
+
 public class Database {
 	// Enter your mySQL password and username here in format private static String SQLUsername = "
 	private static String SQLUsername = "root";
-	private static String SQLPassword = "Soccer33!";
+	private static String SQLPassword = "Je$$eng09322";
 	public static Connection conn = null;
 	public static PreparedStatement ps;
 	public static Statement st;
@@ -269,7 +271,23 @@ public class Database {
 	    }
 	}
 
-
+	public static Set<Integer> getJobIDsForCompany(String companyName){
+	    Set<Integer> jobIDs = new HashSet<>();
+        String sql = "SELECT application_id FROM JobApplications WHERE company = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, companyName);
+            
+            try (ResultSet rs = ps.executeQuery()) {
+            	while(rs.next()) {
+            		jobIDs.add(rs.getInt("application_id"));
+            	}
+            } 
+        } catch (SQLException e) {
+            e.printStackTrace();
+          }
+        
+	    return jobIDs;
+	}
 	
 	public static void ConnectToDatabase()
 	{
