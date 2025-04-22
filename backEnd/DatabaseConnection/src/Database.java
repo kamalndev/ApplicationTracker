@@ -26,6 +26,25 @@ public class Database {
 		}
 	}
 	
+	public static boolean checkUser(String username, String password) {
+	    String sql = "SELECT * FROM Users WHERE username = ? AND password = ?";
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, username);
+	        ps.setString(2, password);
+
+	        ResultSet rs = ps.executeQuery();
+
+	        if (rs.next()) {
+	            return true;
+	        } else {
+	            return false;
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+	
 	public static void deleteUserById(int userId) {
         String sql = "DELETE FROM Users WHERE user_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
