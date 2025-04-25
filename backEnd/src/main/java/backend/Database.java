@@ -19,34 +19,40 @@ public class Database {
 	public static Statement st;
 	
 	
-	public static void addUser(String username, String password) {
-        String sql = "INSERT INTO Users (username, password) VALUES (?, ?)";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, username);
-            ps.setString(2, password);
-            ps.executeUpdate();
-        } catch (SQLException e) {
+public static int addUser(String username, String password) {
+		String sql = "INSERT INTO Users (username, password) VALUES (?, ?)";
+		try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+			ps.setString(1, username);
+			ps.setString(2, password);
+			ps.executeUpdate();
+
+			ResultSet rs = ps.getGeneratedKeys();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return -1;
 	}
 	
-	public static boolean checkUser(String username, String password) {
-	    String sql = "SELECT * FROM Users WHERE username = ? AND password = ?";
-	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-	        ps.setString(1, username);
-	        ps.setString(2, password);
-
-	        ResultSet rs = ps.executeQuery();
-
-	        if (rs.next()) {
-	            return true;
-	        } else {
-	            return false;
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        return false;
-	    }
+	public static int checkUser(String username, String password) {
+		String sql = "SELECT user_id FROM Users WHERE username = ? AND password = ?";
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+			ps.setString(1, username);
+			ps.setString(2, password);
+	
+			ResultSet rs = ps.executeQuery();
+	
+			if (rs.next()) {
+				return rs.getInt("user_id");
+			} else {
+				return -1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 	
 	public static void deleteUserById(int userId) {
