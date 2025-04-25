@@ -31,7 +31,7 @@ public class LoginServlet extends HttpServlet {
         try {
             LoginRequest loginRequest = gson.fromJson(request.getReader(), LoginRequest.class);
 
-            String username = loginRequest.username;
+            String username = loginRequest.email;
             String password = loginRequest.password;
 
             if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
@@ -45,17 +45,11 @@ public class LoginServlet extends HttpServlet {
 
             boolean isAuthenticated = Database.checkUser(username, password);
 
-            Map<String, Object> responseMap = new HashMap<>();
-
             if (isAuthenticated) {
-                responseMap.put("success", true);
-                responseMap.put("message", "Login successful");
+            	out.print("{\"success\": true}");
             } else {
-                responseMap.put("success", false);
-                responseMap.put("message", "Invalid username or password");
+            	out.print("{\"success\": false}");
             }
-
-            out.print(gson.toJson(responseMap));
 
         } catch (JsonSyntaxException e) {
             sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid JSON format: " + e.getMessage());
@@ -76,7 +70,7 @@ public class LoginServlet extends HttpServlet {
     }
 
     private static class LoginRequest {
-        private String username;
+        private String email;
         private String password;
     }
 }

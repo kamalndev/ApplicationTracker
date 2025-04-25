@@ -31,7 +31,7 @@ public class RegisterServlet extends HttpServlet {
         try {
             RegisterRequest registerRequest = gson.fromJson(request.getReader(), RegisterRequest.class);
 
-            String username = registerRequest.username;
+            String username = registerRequest.email;
             String password = registerRequest.password;
 
             if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
@@ -45,8 +45,9 @@ public class RegisterServlet extends HttpServlet {
 
             Database.addUser(username, password);
 
-
-        } catch (JsonSyntaxException e) {
+            out.print("{\"success\": true}");
+            out.flush();
+            } catch (JsonSyntaxException e) {
             sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid JSON format: " + e.getMessage());
         } catch (Exception e) {
             sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Server error: " + e.getMessage());
@@ -65,7 +66,7 @@ public class RegisterServlet extends HttpServlet {
     }
 
     private static class RegisterRequest {
-        private String username;
+        private String email;
         private String password;
     }
 }
