@@ -21,7 +21,7 @@ export default function Navbar() {
           </li>
           <li>
             <Link
-              to="/public"
+              to="/search"
               className="text-[#cfcfcf] font-medium transition-colors hover:text-white hover:border-b-2 hover:border-white"
             >
               Public Dashboard
