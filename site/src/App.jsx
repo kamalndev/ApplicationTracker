@@ -4,6 +4,7 @@ import Layout from './Layout';
 import Login from './pages/Login';
 import PersonalDashboard from './pages/PersonalDashboard';
 import PublicDashboard from './pages/PublicDashboard';
+import SearchPage from './pages/SearchPage';
 import './index.css'
 
 
@@ -17,6 +18,7 @@ function App() {
         <Route element={<Layout/>}>
           <Route path="/dashboard" element={<PersonalDashboard/>}/>
           <Route path="/public" element={<PublicDashboard/>}/>
+          <Route path="/search" element={<SearchPage/>}/>
         </Route>
       </Routes>
     </Router>
