@@ -1,30 +1,64 @@
 package backend.classes;
-import java.sql.Timestamp;
+import java.sql.Timestamp; 
 import java.util.HashMap;
 import java.util.Map;
 
 public class JobApplication {
-    String company;
     int appId;
+    String company;
     String jobPosition;
     String jobDescription;
-    Timestamp timeApplied;
-    Long dueDate;
+//    Timestamp timeApplied;
+    String dueDate;
     String requirements;
-    Boolean isPrivate;
-    String userComments;
-    Map<Integer, String> publicComments = new HashMap<>(); // (UserID to Comment)
-    int authorID;
     String appStatus;
-    int jobID;
+    String notes;
+//    Boolean isPrivate;
+//    String userComments;
+//    Map<Integer, String> publicComments = new HashMap<>(); // (UserID to Comment)
+//    int authorID;
 
     public JobApplication (
-        String company, String jobPosition, int appId, Timestamp timeApplied, String appStatus
+       int appId, String company, String jobPosition, String jobDescription, String dueDate, String requirements, String appStatus, String notes
     ) {
+    	this.appId = appId;
         this.company = company;
         this.jobPosition = jobPosition;
-        this.timeApplied = timeApplied;
+        this.jobDescription = jobDescription;
+        this.dueDate = dueDate;
+        this.requirements = requirements;
         this.appStatus = appStatus;
-        this.appId = appId;        
+        this.notes = notes;
+    }
+    public int getID() {
+    	return this.appId;
+    }
+    
+    public String getCompany() {
+    	return this.company;
+    }
+    
+    public String getJobPosition() {
+    	return this.jobPosition;
+    }
+    
+    public String getJobDescription() {
+    	return this.jobDescription;
+    }
+    
+    public String getDueDate() {
+    	return this.dueDate;
+    }
+    
+    public String getRequirements() {
+    	return this.requirements;
+    }
+    
+    public String getAppStatus() {
+    	return this.appStatus;
+    }
+    
+    public String getNotes() {
+    	return this.notes;
     }
 }

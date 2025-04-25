@@ -1,5 +1,5 @@
 package backend;
-import java.sql.Connection; 
+import java.sql.Connection;   
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.*;
 import backend.classes.JobApplication;
+import java.text.SimpleDateFormat;
 
 public class Database {
 	// Enter your mySQL password and username here in format private static String SQLUsername = "
@@ -89,14 +90,25 @@ public class Database {
 
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, userId);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             try (ResultSet rs = ps.executeQuery()) {
                 while (rs.next()) {
                 	int appId = rs.getInt("application_id");
                     String company = rs.getString("company");
                     String position = rs.getString("job_position");
+                    String description = rs.getString("job_description");
+                    java.sql.Date deadline = rs.getDate("application_deadline");
+                    
+                    String formattedDueDate = "";
+                    if (deadline != null) {
+                        formattedDueDate = sdf.format(deadline);
+                    }
+                    
+                    String requirements = rs.getString("application_requirements");
                     String status = rs.getString("application_status");
-                    Timestamp time = rs.getTimestamp("time_applied");
-					JobApplication currApp = new JobApplication(company, position, appId, time, status);
+                    String notes = rs.getString("additional_info");
+                    
+					JobApplication currApp = new JobApplication(appId, company, position, description, formattedDueDate, requirements, status, notes);
 					apps.add(currApp);
                 }
             }
@@ -107,6 +119,75 @@ public class Database {
 
 	}
 	
+	public static List<JobApplication> getJobApplicationsByCompanyName(String companyName) {
+        String sql = "SELECT * FROM JobApplications WHERE LOWER(company) = LOWER(?)";
+        List<JobApplication> companyApplications = new ArrayList<>();
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, companyName);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                	int appId = rs.getInt("application_id");
+                    String company = rs.getString("company");
+                    String position = rs.getString("job_position");
+                    String description = rs.getString("job_description");
+                    java.sql.Date deadline = rs.getDate("application_deadline");
+                    
+                    String formattedDueDate = "";
+                    if (deadline != null) {
+                        formattedDueDate = sdf.format(deadline);
+                    }
+                    
+                    String requirements = rs.getString("application_requirements");
+                    String status = rs.getString("application_status");
+                    String notes = rs.getString("additional_info");
+                    
+					JobApplication currApp = new JobApplication(appId, company, position, description, formattedDueDate, requirements, status, notes);
+					companyApplications.add(currApp);
+                }
+            }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return companyApplications;
+
+	}
+	
+	public static List<JobApplication> getAllJobApps(){
+	    List<JobApplication> applications = new ArrayList<>();
+	    String sql = "SELECT * FROM JobApplications";
+
+	    try (PreparedStatement ps = conn.prepareStatement(sql);
+	        ResultSet rs = ps.executeQuery()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            
+	        while (rs.next()) {
+            	int appId = rs.getInt("application_id");
+                String company = rs.getString("company");
+                String position = rs.getString("job_position");
+                String description = rs.getString("job_description");
+                java.sql.Date deadline = rs.getDate("application_deadline");
+                
+                String formattedDueDate = "";
+                if (deadline != null) {
+                    formattedDueDate = sdf.format(deadline);
+                }
+                
+                String requirements = rs.getString("application_requirements");
+                String status = rs.getString("application_status");
+                String notes = rs.getString("additional_info");
+                
+				JobApplication currApp = new JobApplication(appId, company, position, description, formattedDueDate, requirements, status, notes);
+				applications.add(currApp);
+	        }
+
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return applications;
+	}
 	public static void updateApplicationStatus(int appId, String newStatus) {
         String sql = "UPDATE JobApplications SET application_status = ? WHERE application_id = ?";
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -324,7 +405,7 @@ public class Database {
 		try {
 			
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			conn = DriverManager.getConnection("jdbc:mysql://localhost/JobInfo", SQLUsername, SQLPassword);
+			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/CSCI201_Final_Project", SQLUsername, SQLPassword);
 	        String query = """
 	                SELECT *
 	                FROM Users
