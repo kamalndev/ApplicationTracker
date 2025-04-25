@@ -30,18 +30,22 @@ public class AddApplicationServlet extends HttpServlet {
         
         try {
             JobApplicationRequest appRequest = gson.fromJson(request.getReader(), JobApplicationRequest.class);
-            int userId = appRequest.userId;
+            int userId = appRequest.user_id;
             if (userId <= 0) {
                 sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid user ID");
                 return;
             }
             
-            String requirementsStr = String.join(", ", appRequest.requirements);
+            if (Database.conn == null) {
+                Database.ConnectToDatabase();
+            }
+            
+            String requirementsStr JobApplicationRequest.;
             
             Date date = null;
             try {
                 SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                java.util.Date parsedDate = format.parse(appRequest.date);
+                java.util.Date parsedDate = format.parse(appRequest.application_deadline);
                 date = new Date(parsedDate.getTime());
             } catch (Exception e) {
                 sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, 
@@ -90,13 +94,15 @@ public class AddApplicationServlet extends HttpServlet {
     
    
     private static class JobApplicationRequest {
+        private int application_id;
         private String company;
-        private String jobPosition;
-        private String jobDescription;
-        private String date;
-        private String[] requirements;
-        private String notes;
-        private String status;
-        private int userId;
+        private String job_position;
+        private String job_description;
+        private String application_deadline;
+        private String application_requirements;
+        private String additional_info;
+        private String application_status;
+        private S
+        private int user_id;
     }
 }
