@@ -21,8 +21,56 @@ public class GetCompanyServlet extends HttpServlet {
     private final Gson gson = new Gson();
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
    
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        
+        try {
+            String appIdStr = request.getParameter("appId");
+            if (appIdStr == null || appIdStr.isEmpty()) {
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Missing appId parameter");
+                return;
+            }
+            
+            int appId = Integer.parseInt(appIdStr);
+            if (appId <= 0) {
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid appId parameter");
+                return;
+            }
+            
+            if (Database.conn == null) {
+                Database.ConnectToDatabase();
+            }
+            
+            String company = Database.getCompany(appId);
+            
+            Map<String, Object> companyMap = new HashMap<>();
+            companyMap.put("name", company.getName());
+            companyMap.put("jobPositions", company.getJobPositions());
+            companyMap.put("jobApps", company.getJobApps());
+            companyMap.put("numApps", company.getNumApps());
+            
+            out.print(gson.toJson(companyMap));
+        	
+        } catch (NumberFormatException e) {
+            sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "appId must be an integer");
+        } catch (Exception e) {
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Server error: " + e.getMessage());
+            e.printStackTrace();
+        }
+    	
+    }
+    
+    private void sendErrorResponse(HttpServletResponse response, int statusCode, String message) throws IOException {
+        response.setStatus(statusCode);
+        response.setContentType("application/json");
+
+        Map<String, Object> errorResponseMap = new HashMap<>();
+        errorResponseMap.put("success", false);
+        errorResponseMap.put("message", message);
+        response.getWriter().print(new Gson().toJson(errorResponseMap));
     }
 }

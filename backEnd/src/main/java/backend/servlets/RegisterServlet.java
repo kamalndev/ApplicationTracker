@@ -43,9 +43,13 @@ public class RegisterServlet extends HttpServlet {
                 Database.ConnectToDatabase();
             }
 
-            Database.addUser(username, password);
+            int userID = Database.addUser(username, password);
 
-            out.print("{\"success\": true}");
+            if (userID != -1) {
+                out.print("{\"success\": true, \"user_id\": " + userID + "}");
+            } else {
+                out.print("{\"success\": false, \"message\": \"Failed to add user\"}");
+            }
             out.flush();
             } catch (JsonSyntaxException e) {
             sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Invalid JSON format: " + e.getMessage());

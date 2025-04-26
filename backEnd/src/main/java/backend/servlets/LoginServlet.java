@@ -43,12 +43,12 @@ public class LoginServlet extends HttpServlet {
                 Database.ConnectToDatabase();
             }
 
-            boolean isAuthenticated = Database.checkUser(username, password);
+            int userID = Database.checkUser(username, password);
 
-            if (isAuthenticated) {
-            	out.print("{\"success\": true}");
+            if (userID != -1) {
+                out.print("{\"success\": true, \"user_id\": " + userID + "}");
             } else {
-            	out.print("{\"success\": false}");
+                out.print("{\"success\": false}");
             }
 
         } catch (JsonSyntaxException e) {

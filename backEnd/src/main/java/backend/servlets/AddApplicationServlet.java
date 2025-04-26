@@ -29,6 +29,8 @@ public class AddApplicationServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         
         try {
+        	
+        	// if posting as a json body
             JobApplicationRequest appRequest = gson.fromJson(request.getReader(), JobApplicationRequest.class);
             int userId = appRequest.user_id;
             if (userId <= 0) {
@@ -36,36 +38,33 @@ public class AddApplicationServlet extends HttpServlet {
                 return;
             }
             
+            // if posting as parameters
+//        	JobApplicationRequest appRequest = new JobApplicationRequest();
+//        	appRequest.company                 = request.getParameter("company");
+//        	appRequest.job_position            = request.getParameter("job_position");
+//        	appRequest.job_description         = request.getParameter("job_description");
+//        	appRequest.application_deadline    = request.getParameter("application_deadline");
+//        	appRequest.application_requirements= request.getParameter("application_requirements");
+//        	appRequest.additional_info         = request.getParameter("additional_info");
+//        	appRequest.application_status      = request.getParameter("application_status");
+        	
+        	java.sql.Date sqlDate = java.sql.Date.valueOf(appRequest.application_deadline);
+        	
+        	
             if (Database.conn == null) {
                 Database.ConnectToDatabase();
             }
-            
-            String requirementsStr JobApplicationRequest.;
-            
-            Date date = null;
-            try {
-                SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-                java.util.Date parsedDate = format.parse(appRequest.application_deadline);
-                date = new Date(parsedDate.getTime());
-            } catch (Exception e) {
-                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, 
-                    "Invalid date format. Use MM/DD/YYYY");
-                return;
-            }
-            
-            if (Database.conn == null) {
-                Database.ConnectToDatabase();
-            }
+                        
             
             Database.addJobApplication(
                 appRequest.company,
-                appRequest.jobPosition,
-                appRequest.jobDescription,
-                date,
-                requirementsStr,
-                appRequest.notes,
-                appRequest.status,
-                userId
+                appRequest.job_position,
+                appRequest.job_description,
+                sqlDate,
+                appRequest.application_requirements,
+                appRequest.additional_info,
+                appRequest.application_status,
+                1
             );
             
             Map<String, Object> responseMap = new HashMap<>();
@@ -102,7 +101,6 @@ public class AddApplicationServlet extends HttpServlet {
         private String application_requirements;
         private String additional_info;
         private String application_status;
-        private S
         private int user_id;
     }
 }
