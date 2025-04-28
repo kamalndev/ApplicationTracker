@@ -42,11 +42,11 @@ export default function PersonalDashboard() {
   const [formData, setFormData] = useState({
     company: '',
     job_position: '',
-    job_description: '',
-    application_deadline: '',
-    application_requirements: '',
-    additional_info: '',
-    application_status: '',
+    description: '',
+    date: '',
+    requirements: '',
+    notes: '',
+    status: '',
     user_id: 1,
   });
   
@@ -79,7 +79,7 @@ export default function PersonalDashboard() {
     //     notes: formData.notes,
     //   };
     
-      setApplications((prev) => [...prev, newApplication]);
+      // setApplications((prev) => [...prev, newApplication]);
       // setShowModal(false);
       // setFormData({
       //   company: '',
@@ -96,8 +96,7 @@ export default function PersonalDashboard() {
     try {
         const res = await fetch('http://localhost:8080/CSCI201_Final_Project_Backend/api/applications', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin' : '*'
+          headers: { 'Content-Type': 'application/json'
           },
           body: JSON.stringify(formData)
         });
@@ -111,7 +110,7 @@ export default function PersonalDashboard() {
           job_position: '',
           description: '',
           date: '',
-          requirements: [],
+          requirements: '',
           notes: '',
           status: '',
           user_id: 1,
@@ -165,7 +164,7 @@ export default function PersonalDashboard() {
               <td className="p-3">{app.company}</td>
               <td className="p-3">{app.job_position}</td>
               <td className="p-3">{app.date}</td>
-              <td className="p-3">{app.requirements?.join(', ')}</td>
+              <td className="p-3">{app.requirements}</td>
               <td className="p-3">{app.notes}</td>
               <td className="p-3">{app.status}</td>
               <td className="p-3 space-x-2">
