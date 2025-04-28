@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import backend.Database;
 
-@WebServlet("\")
+@WebServlet("/api/applications")
 public class AddApplicationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final Gson gson = new Gson();
