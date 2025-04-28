@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import backend.Database;
 
-@WebServlet("\")
+@WebServlet("/api/applications")
 public class AddApplicationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final Gson gson = new Gson();
@@ -48,7 +48,7 @@ public class AddApplicationServlet extends HttpServlet {
 //        	appRequest.additional_info         = request.getParameter("additional_info");
 //        	appRequest.application_status      = request.getParameter("application_status");
         	
-        	java.sql.Date sqlDate = java.sql.Date.valueOf(appRequest.application_deadline);
+        	java.sql.Date sqlDate = java.sql.Date.valueOf(appRequest.date);
         	
         	
             if (Database.conn == null) {
@@ -59,11 +59,11 @@ public class AddApplicationServlet extends HttpServlet {
             Database.addJobApplication(
                 appRequest.company,
                 appRequest.job_position,
-                appRequest.job_description,
+                appRequest.description,
                 sqlDate,
-                appRequest.application_requirements,
-                appRequest.additional_info,
-                appRequest.application_status,
+                appRequest.requirements,
+                appRequest.notes,
+                appRequest.status,
                 1
             );
             
@@ -95,11 +95,11 @@ public class AddApplicationServlet extends HttpServlet {
     private static class JobApplicationRequest {
         private String company;
         private String job_position;
-        private String job_description;
-        private String application_deadline;
-        private String application_requirements;
-        private String additional_info;
-        private String application_status;
+        private String description;
+        private String date;
+        private String requirements;
+        private String notes;
+        private String status;
         private int user_id;
     }
 }
