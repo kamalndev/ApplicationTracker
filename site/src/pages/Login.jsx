@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default function LoginPage() {
 	const [form, setForm] = useState({ email: "", password: "" });
+	const navigate = useNavigate();
 
 	const [loginError, setLoginError] = useState(null);
 
@@ -15,7 +16,11 @@ export default function LoginPage() {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		console.log("Logging in with", form, "and API_URL", API_URL);
+		setLoginError(null);
+		if (!form.email || !form.password) {
+			setLoginError("Please fill in all fields");
+			return;
+		}
 
 		try {
 			const res = await fetch(`${API_URL}/api/login`, {
@@ -35,13 +40,14 @@ export default function LoginPage() {
 
 			if (data.success) {
 				localStorage.setItem("userid", data.user_id);
-				window.location.href = "/dashboard"; // Redirect to dashboard
+				navigate("/dashboard", { replace: true });
 			} else {
 				setLoginError(data.message || "Email or password is incorrect");
 				return;
 			}
 		} catch (err) {
 			console.error("Error logging in:", err);
+			setLoginError("An error occurred. Please try again.");
 		}
 	};
 
@@ -105,6 +111,15 @@ export default function LoginPage() {
 						Log In
 					</button>
 				</form>
+				<p className="mt-4 text-sm text-gray-400 text-center">
+					Don't have an account?{" "}
+					<Link
+						to="/register"
+						className="text-blue-500 hover:underline"
+					>
+						Register
+					</Link>
+				</p>
 			</div>
 		</div>
 	);
