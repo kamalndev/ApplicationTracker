@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import backend.Database;
 
-@WebServlet("/api/applications")
+@WebServlet("\")
 public class AddApplicationServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private final Gson gson = new Gson();
@@ -93,7 +93,6 @@ public class AddApplicationServlet extends HttpServlet {
     
    
     private static class JobApplicationRequest {
-        private int application_id;
         private String company;
         private String job_position;
         private String job_description;

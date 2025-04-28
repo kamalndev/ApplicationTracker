@@ -42,11 +42,11 @@ export default function PersonalDashboard() {
   const [formData, setFormData] = useState({
     company: '',
     job_position: '',
-    description: '',
-    date: '',
-    requirements: [],
-    notes: '',
-    status: '',
+    job_description: '',
+    application_deadline: '',
+    application_requirements: '',
+    additional_info: '',
+    application_status: '',
     user_id: 1,
   });
   
@@ -54,7 +54,7 @@ export default function PersonalDashboard() {
   // GET '/api/applications' -> gets all applications from current user
   const fetchApplications = async () => {
     try {
-        const res = await fetch('/api/applications');
+        const res = await fetch('http://localhost:8080/CSCI201_Final_Project_Backend/api/personaldashboard?userId=1');
         const data = await res.json();
         setApplications(data);
       } catch (err) {
@@ -94,9 +94,11 @@ export default function PersonalDashboard() {
 
     // POST '/api/applications' -> posts new appliation for current user
     try {
-        const res = await fetch('/api/applications', {
+        const res = await fetch('http://localhost:8080/CSCI201_Final_Project_Backend/api/applications', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin' : '*'
+          },
           body: JSON.stringify(formData)
         });
     
