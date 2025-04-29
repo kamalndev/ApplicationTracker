@@ -24,9 +24,11 @@ export default function LoginPage() {
 		setFormError(null);
 		console.log("form", form);
 		if (
-			(doRegister && (!form.email || !form.password)) ||
+			(doRegister && !form.email && !form.password) ||
 			(!doRegister &&
-				(!form.email || !form.password || !form.confirmpassword))
+				!form.email &&
+				!form.password &&
+				!form.confirmpassword)
 		) {
 			setFormError("Please fill in all fields");
 			return;
@@ -157,7 +159,7 @@ export default function LoginPage() {
 						{doRegister ? "Register" : "Login"}
 					</button>
 				</form>
-				<p className="mt-4 text-sm text-gray-400 text-center">
+				<div className="mt-4 text-sm text-gray-400 text-center">
 					{doRegister ? (
 						<div>
 							Already registered?{" "}
@@ -179,7 +181,7 @@ export default function LoginPage() {
 							</a>
 						</div>
 					)}
-				</p>
+				</div>
 			</div>
 		</div>
 	);
