@@ -19,22 +19,34 @@ public class Database {
 	public static Statement st;
 	
 	
-public static int addUser(String username, String password) {
-		String sql = "INSERT INTO Users (username, password) VALUES (?, ?)";
-		try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-			ps.setString(1, username);
-			ps.setString(2, password);
-			ps.executeUpdate();
+	public static int addUser(String username, String password) {
+        String checkSql = "SELECT COUNT(*) FROM Users WHERE username = ?";
+        try (PreparedStatement checkPs = conn.prepareStatement(checkSql)) {
+            checkPs.setString(1, username);
+            ResultSet checkRs = checkPs.executeQuery();
+            
+            if (checkRs.next() && checkRs.getInt(1) > 0) {
+                return -2;
+            }
+            
+            String insertSql = "INSERT INTO Users (username, password) VALUES (?, ?)";
+            try (PreparedStatement insertPs = conn.prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS)) {
+                insertPs.setString(1, username);
+                insertPs.setString(2, password);
+                insertPs.executeUpdate();
+                
+                ResultSet rs = insertPs.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
-			ResultSet rs = ps.getGeneratedKeys();
-			if (rs.next()) {
-				return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return -1;
-	}
+
 	
 	public static int checkUser(String username, String password) {
 		String sql = "SELECT user_id FROM Users WHERE username = ? AND password = ?";
