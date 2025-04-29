@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function PublicDashboard() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
@@ -28,7 +30,7 @@ export default function PublicDashboard() {
         }
 
         try {
-            const res = await fetch('/api/publicdashboard');
+            const res = await fetch(`${API_URL}/api/publicdashboard`);
             if (!res.ok) throw new Error('Not Found');
             const companies = await res.json();
 
