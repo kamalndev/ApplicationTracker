@@ -45,8 +45,10 @@ public class RegisterServlet extends HttpServlet {
 
             int userID = Database.addUser(username, password);
 
-            if (userID != -1) {
+            if (userID > 0) {
                 out.print("{\"success\": true, \"user_id\": " + userID + "}");
+            } else if (userID == -2) {
+                out.print("{\"success\": false, \"message\": \"Username already exists\"}");
             } else {
                 out.print("{\"success\": false, \"message\": \"Failed to add user\"}");
             }
