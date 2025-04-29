@@ -42,7 +42,7 @@ export default function ApplicationModal({ handleSubmit, formData, setFormData, 
             onChange={(e) => setFormData({ ...formData, date: e.target.value })}
             className="w-full p-2 rounded bg-gray-800 border border-gray-600"
           />
-          <div>
+          {/* <div>
             <p className="mb-1">Requirements:</p>
             <div className="flex flex-wrap gap-2">
               {['OA', 'Technical', 'Behavioral', 'Other'].map((req) => (
@@ -56,7 +56,15 @@ export default function ApplicationModal({ handleSubmit, formData, setFormData, 
                 </label>
               ))}
             </div>
-          </div>
+          </div> */}
+          <input
+            type="text"
+            placeholder="Requirements: OA, Technical, Behavioral"
+            value={formData.requirements}
+            onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
+            className="w-full p-2 rounded bg-gray-800 border border-gray-600"
+            required
+          />
           <textarea
             placeholder="Additional Info / Interview Notes"
             value={formData.notes}
