@@ -1,42 +1,10 @@
 import { useState, useEffect } from 'react';
 import ApplicationModal from '../UI/ApplicationModal';
 
-export default function PersonalDashboard() {
-    // temporary for UI
-    const sampleApplications = [
-      {
-        id: 1,
-        company: "Stripe",
-        job_position: "Full-stack Intern",
-        description: "Full-stack intern role focused on internal tools for payment reconciliation.",
-        date: "04/10/2025",
-        requirements: ["Technical"],
-        notes: "System design question came up. Mentioned my work with Flask and Elysia.js.",
-        status: "Interviewing",
-      },
-      {
-        id: 2,
-        company: "Stripe",
-        job_position: "Full-stack Intern",
-        description: "Full-stack intern role focused on internal tools for payment reconciliation.",
-        date: "04/10/2025",
-        requirements: ["Technical"],
-        notes: "System design question came up. Mentioned my work with Flask and Elysia.js.",
-        status: "Interviewing",
-      },
-      {
-        id: 3,
-        company: "Stripe",
-        job_position: "Full-stack Intern",
-        description: "Full-stack intern role focused on internal tools for payment reconciliation.",
-        date: "04/10/2025",
-        requirements: ["Technical"],
-        notes: "System design question came up. Mentioned my work with Flask and Elysia.js.",
-        status: "Interviewing",
-      },
-      ];
+const API_URL = import.meta.env.VITE_API_URL;
+const USER_ID = localStorage.getItem("userid");
 
-      
+export default function PersonalDashboard() {
   const [showModal, setShowModal] = useState(false);
   const [applications, setApplications] = useState([]);
   const [formData, setFormData] = useState({
@@ -47,14 +15,14 @@ export default function PersonalDashboard() {
     requirements: '',
     notes: '',
     status: '',
-    user_id: 1,
+    user_id: USER_ID,
   });
   
 
   // GET '/api/applications' -> gets all applications from current user
   const fetchApplications = async () => {
     try {
-        const res = await fetch('http://localhost:8080/CSCI201_Final_Project_Backend/api/personaldashboard?userId=1');
+        const res = await fetch(`${API_URL}api/personaldashboard?userId=${USER_ID}`);
         const data = await res.json();
         setApplications(data);
       } catch (err) {
@@ -64,40 +32,16 @@ export default function PersonalDashboard() {
 
   useEffect(() => {
     fetchApplications();
-    // setApplications(sampleApplications); // temporary applications for UI
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // temporary add application for UI
-    // const newApplication = {
-    //     id: Date.now(), 
-    //     company: formData.company,
-    //     jobDescription: formData.description,
-    //     date: formData.date,
-    //     requirements: formData.requirements,
-    //     notes: formData.notes,
-    //   };
-    
-      // setApplications((prev) => [...prev, newApplication]);
-      // setShowModal(false);
-      // setFormData({
-      //   company: '',
-      //   job_position: '',
-      //   description: '',
-      //   date: '',
-      //   requirements: [],
-      //   notes: '',
-      //   status: '',
-      //   user_id: 1,
-      // });
 
     // POST '/api/applications' -> posts new appliation for current user
     try {
-        const res = await fetch('http://localhost:8080/CSCI201_Final_Project_Backend/api/applications', {
+        const res = await fetch(`${API_URL}/api/applications`, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json'},
           body: JSON.stringify(formData)
         });
     
@@ -113,7 +57,7 @@ export default function PersonalDashboard() {
           requirements: '',
           notes: '',
           status: '',
-          user_id: 1,
+          user_id: USER_ID,
         });
         fetchApplications();
       } catch (err) {
@@ -151,7 +95,7 @@ export default function PersonalDashboard() {
             <th className="p-3">Requirements</th>
             <th className="p-3">Notes</th>
             <th className="p-3">Status</th>
-            <th className="p-3">Actions</th>
+            {/* <th className="p-3">Actions</th> */}
           </tr>
         </thead>
         <tbody>
@@ -167,7 +111,7 @@ export default function PersonalDashboard() {
               <td className="p-3">{app.requirements}</td>
               <td className="p-3">{app.notes}</td>
               <td className="p-3">{app.status}</td>
-              <td className="p-3 space-x-2">
+              {/* <td className="p-3 space-x-2">
                 <button
                   className="text-yellow-400 hover:underline"
                   onClick={(e) => {
@@ -186,7 +130,7 @@ export default function PersonalDashboard() {
                 >
                   Delete
                 </button>
-              </td>
+              </td> */}
             </tr>
           ))}
         </tbody>
