@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import backend.Database;
+import backend.classes.Company;
 
 @WebServlet("/api/getCompany")
 public class GetCompanyServlet extends HttpServlet {
@@ -45,7 +46,8 @@ public class GetCompanyServlet extends HttpServlet {
                 Database.ConnectToDatabase();
             }
             
-            String company = Database.getCompany(appId);
+            String c = Database.getCompany(appId);
+            Company company = new Company(c);
             
             Map<String, Object> companyMap = new HashMap<>();
             companyMap.put("name", company.getName());

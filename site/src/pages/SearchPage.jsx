@@ -13,7 +13,7 @@ export default function SearchPage() {
 
     return (
         <div className="flex flex-col items-center min-h-screen bg-[#242424] px-4 pt-20">
-            <h1 className="text-3xl font-bold text-white text-center">Search For Company (sample works for google only)</h1>
+            <h1 className="text-3xl font-bold text-white text-center">Search For Company</h1>
                 <form onSubmit={handleSubmit} className="w-full max-w-xl mx-auto mt-10 flex shadow hover: ">
                     <input
                         type="text"

@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat;
 public class Database {
 	// Enter your mySQL password and username here in format private static String SQLUsername = "
 	private static String SQLUsername = "root";
-	private static String SQLPassword = "Je$$eng09322";
+	private static String SQLPassword = "MyNewSecurePassword"; //"Je$$eng09322";
 	public static Connection conn = null;
 	public static PreparedStatement ps;
 	public static Statement st;

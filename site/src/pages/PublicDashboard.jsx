@@ -5,32 +5,47 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 export default function PublicDashboard() {
     const [searchParams] = useSearchParams();
     const navigate = useNavigate();
+    const rawQuery = searchParams.get('q') || '';
+    const companyQuery = rawQuery.trim().toLowerCase();
 
-    // grab the query-string company name (e.g. ?q=google)
-    const rawQ = searchParams.get('q') || '';
-    const companyQuery = rawQ.trim().toLowerCase();
-    // capitalize first letter:
-    const displayCompany = companyQuery
-        ? companyQuery[0].toUpperCase() + companyQuery.slice(1)
-        : '';
+    const displayCompany = companyQuery ? companyQuery[0].toUpperCase() + companyQuery.slice(1)  : '';
 
-    const [term, setTerm] = useState(rawQ);
+    const [term, setTerm] = useState(rawQuery);
     const [applications, setApplications] = useState([]);
 
-    // temporary mock data; replace this with your fetch call later
-    const samplePublic = [
-        { id:1, company: 'Google', jobDescription: 'STEP intern', date: '12-05-2022 12:11', requirements: ['OA'] },
-        { id:2, company: 'Google', jobDescription: 'SDE intern - Seattle', date: '12-05-2022 12:11', requirements: ['OA','Tech'] },
-        { id:3, company: 'Google', jobDescription: 'Software Eng Intern - LA', date: '12-05-2022 12:11', requirements: ['OA','Behavioral'] },
-    ];
+
+    // const samplePublic = [
+    //     { id:1, company: 'Google', jobDescription: 'STEP intern', date: '12-05-2022 12:11', requirements: ['OA'] },
+    //     { id:2, company: 'Google', jobDescription: 'SDE intern - Seattle', date: '12-05-2022 12:11', requirements: ['OA','Tech'] },
+    //     { id:3, company: 'Google', jobDescription: 'Software Eng Intern - LA', date: '12-05-2022 12:11', requirements: ['OA','Behavioral'] },
+    // ];
+
+    // GET '/api/publicdashboard
+    const fetchApplications = async () => {
+        if (!companyQuery) {
+            setApplications([]);
+            return;
+        }
+
+        try {
+            const res = await fetch('/api/publicdashboard');
+            if (!res.ok) throw new Error('Not Found');
+            const companies = await res.json();
+
+            // logic for partial match
+            const match = companies.find(c => c.name.toLowerCase().includes(companyQuery));
+            setApplications(match?.jobApps || []);
+        } catch (error) {
+            console.error('Error fetching public applications', error);
+            setApplications([]);
+        }
+    };
 
     useEffect(() => {
-        // filter mock data by companyQuery
-        const filtered = samplePublic.filter(a =>
-            a.company.toLowerCase().includes(companyQuery)
-        );
-        setApplications(filtered);
+        fetchApplications();
     }, [companyQuery]);
+
+
 
     const handleSearch = e => {
         e.preventDefault();
@@ -63,7 +78,7 @@ export default function PublicDashboard() {
                 </form>
             </div>
 
-            {/* table */}
+            {/* results table */}
             <table className="w-full text-left text-white bg-[#1e1e2f] rounded-lg shadow overflow-hidden">
                 <thead className="bg-gray-800">
                 <tr>
@@ -78,13 +93,13 @@ export default function PublicDashboard() {
                 {applications.length > 0 ? (
                     applications.map(app => (
                         <tr
-                            key={app.id}
+                            key={app.appId}
                             className="border-t border-gray-700 hover:bg-gray-700"
                         >
                             <td className="p-3">{app.company}</td>
                             <td className="p-3">{app.jobDescription}</td>
-                            <td className="p-3">{app.date}</td>
-                            <td className="p-3">{app.requirements.join(', ')}</td>
+                            <td className="p-3">{app.dueDate}</td>
+                            <td className="p-3">{app.requirements}</td>
                             <td className="p-3">
                                 <button
                                     className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded shadow text-sm whitespace-nowrap"
