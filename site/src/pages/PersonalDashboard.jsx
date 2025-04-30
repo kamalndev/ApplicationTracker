@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import ApplicationModal from '../UI/ApplicationModal';
 
 const API_URL = import.meta.env.VITE_API_URL;
-const USER_ID = localStorage.getItem("userid");
+let USER_ID = localStorage.getItem("userid");
 
 export default function PersonalDashboard() {
   const [showModal, setShowModal] = useState(false);
@@ -22,7 +22,9 @@ export default function PersonalDashboard() {
   // GET '/api/applications' -> gets all applications from current user
   const fetchApplications = async () => {
     try {
-        const res = await fetch(`${API_URL}api/personaldashboard?userId=${USER_ID}`);
+      USER_ID = localStorage.getItem("userid");
+      console.log(USER_ID);  
+      const res = await fetch(`${API_URL}/api/personaldashboard?userId=${USER_ID}`);
         const data = await res.json();
         setApplications(data);
       } catch (err) {
