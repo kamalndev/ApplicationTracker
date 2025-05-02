@@ -55,14 +55,14 @@ VALUES
     1
   ),
   (
-    'Huaqin Technology',
+    'Facebook',
     'Embedded Software Engineer',
-    'Optimize firmware for true-wireless earbuds.',
+    'Optimize firmware.',
     '2025-05-15',
-    'C++, RTOS, Bluetooth protocol',
+    'C++',
     'On-site internship position',
     '2025-04-20 09:30:00',
-    'Interview Scheduled',
+    'Interviewing',
     2
   ),
   (
@@ -71,8 +71,8 @@ VALUES
     'Assist with data analysis for safety analytics platform.',
     '2025-07-01',
     'Java, MongoDB, data viz skills',
-    'USC Robotic Embedded Systems Lab',
+    'No referral',
     '2025-04-25 11:45:00',
-    'Offer Received',
+    'Rejected',
     1
   );
