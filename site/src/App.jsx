@@ -14,7 +14,13 @@ import { useAuth } from "./contexts/Auth";
 import "./index.css";
 
 function App() {
-	const { userId } = useAuth();
+	const { userId, login } = useAuth();
+
+	// Persist user login state
+	if (localStorage.getItem("userid")) {
+		login(localStorage.getItem("userid"), localStorage.getItem("username"));
+	}
+
 	return (
 		<Router>
 			<Routes>

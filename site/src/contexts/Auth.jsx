@@ -7,13 +7,16 @@ export function AuthProvider({ children }) {
 
 	function login(id, name) {
 		localStorage.setItem("userid", id);
+		localStorage.setItem("username", name);
 		setUserId(id);
 		setUserName(name);
 	}
 
 	function logout() {
 		localStorage.removeItem("userid");
+		localStorage.removeItem("username");
 		setUserId(null);
+		setUserName(null);
 	}
 
 	return (
