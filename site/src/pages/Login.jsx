@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useAuth } from "../contexts/Auth";
+import Navbar from "../UI/Navbar";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -85,6 +86,8 @@ export default function LoginPage() {
 	};
 
 	return (
+		<>
+		<Navbar/>
 		<div className="min-h-screen flex flex-col items-center justify-center bg-[#1e1e2f]">
 			<h1 className="text-2xl font-bold text-white mb-6 text-center">
 				Job Application Tracker
@@ -187,5 +190,6 @@ export default function LoginPage() {
 				</div>
 			</div>
 		</div>
+		</>
 	);
 }

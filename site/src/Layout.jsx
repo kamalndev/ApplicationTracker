@@ -9,7 +9,7 @@ function Layout() {
     return (
         <>
             {/* navabr */}
-            {!isLoginPage && <Navbar/>}
+            {<Navbar/>}
             
             {/* main content */}
             <main>
