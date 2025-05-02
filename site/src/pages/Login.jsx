@@ -67,7 +67,7 @@ export default function LoginPage() {
 			}
 
 			if (data.success) {
-				login(data.user_id);
+				login(data.user_id, resForm.email);
 				navigate("/dashboard", { replace: true });
 			} else {
 				if (doRegister)

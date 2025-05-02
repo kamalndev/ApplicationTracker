@@ -3,10 +3,12 @@ import { createContext, useContext, useState } from "react";
 const AuthContext = createContext();
 export function AuthProvider({ children }) {
 	const [userId, setUserId] = useState(() => localStorage.getItem("userid"));
+	const [userName, setUserName] = useState(null);
 
-	function login(id) {
+	function login(id, name) {
 		localStorage.setItem("userid", id);
 		setUserId(id);
+		setUserName(name);
 	}
 
 	function logout() {
@@ -15,7 +17,7 @@ export function AuthProvider({ children }) {
 	}
 
 	return (
-		<AuthContext.Provider value={{ userId, login, logout }}>
+		<AuthContext.Provider value={{ userId, userName, login, logout }}>
 			{children}
 		</AuthContext.Provider>
 	);

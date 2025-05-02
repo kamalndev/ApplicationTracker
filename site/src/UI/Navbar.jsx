@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/Auth";
 
 export default function Navbar() {
-	const { logout } = useAuth();
+	const { logout, userName } = useAuth();
 
 	return (
 		<nav className="relative flex items-center justify-between bg-[#1e1e2f] text-white px-8 py-4 shadow-md">
@@ -35,6 +35,9 @@ export default function Navbar() {
 
 			{/* Right section */}
 			<div className="flex items-center">
+				<div className="text-white font-medium transition-colors px-4 ">
+					Welcome, <span className="font-bold">{userName}</span>
+				</div>
 				<Link
 					to="/"
 					onClick={logout}
