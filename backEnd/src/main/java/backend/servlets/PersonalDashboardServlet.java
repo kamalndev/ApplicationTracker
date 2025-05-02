@@ -49,8 +49,8 @@ public class PersonalDashboardServlet extends HttpServlet {
                 Map<String, Object> appMap = new HashMap<>();
                 appMap.put("id", app.getID());
                 appMap.put("company", app.getCompany());
-                appMap.put("jobPosition", app.getJobPosition());
-                appMap.put("jobDescription", app.getJobDescription());
+                appMap.put("job_position", app.getJobPosition());
+                appMap.put("description", app.getJobDescription());
                 appMap.put("date", app.getDueDate());
                 appMap.put("requirements", Arrays.asList(app.getRequirements()));
                 appMap.put("status", app.getAppStatus());
