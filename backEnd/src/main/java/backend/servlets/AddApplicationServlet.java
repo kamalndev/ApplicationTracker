@@ -64,9 +64,9 @@ public class AddApplicationServlet extends HttpServlet {
                 appRequest.requirements,
                 appRequest.notes,
                 appRequest.status,
-                1
+                appRequest.user_id
             );
-            
+            System.out.println(appRequest.user_id);
             Map<String, Object> responseMap = new HashMap<>();
             responseMap.put("success", true);
             responseMap.put("message", "Application added successfully");
