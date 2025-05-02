@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useAuth } from "../contexts/Auth";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -13,6 +14,8 @@ export default function LoginPage() {
 
 	const [doRegister, setDoRegister] = useState(false);
 	const [formError, setFormError] = useState(null);
+
+	const { login } = useAuth();
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -64,7 +67,7 @@ export default function LoginPage() {
 			}
 
 			if (data.success) {
-				localStorage.setItem("userid", data.user_id);
+				login(data.user_id);
 				navigate("/dashboard", { replace: true });
 			} else {
 				if (doRegister)

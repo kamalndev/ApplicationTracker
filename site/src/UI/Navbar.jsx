@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/Auth";
 
 export default function Navbar() {
+	const { logout } = useAuth();
+
 	return (
 		<nav className="relative flex items-center justify-between bg-[#1e1e2f] text-white px-8 py-4 shadow-md">
 			{/* Left section */}
@@ -34,7 +37,7 @@ export default function Navbar() {
 			<div className="flex items-center">
 				<Link
 					to="/"
-					onClick={() => localStorage.removeItem("userid")}
+					onClick={logout}
 					className="text-[#cfcfcf] font-medium transition-colors hover:text-white hover:border-b-2 hover:border-white"
 				>
 					Logout
