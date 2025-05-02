@@ -14,11 +14,13 @@ import { useAuth } from "./contexts/Auth";
 import "./index.css";
 
 function App() {
-	const { userId, login } = useAuth();
+	const { userId, login, logout } = useAuth();
 
 	// Persist user login state
-	if (localStorage.getItem("userid")) {
+	if (localStorage.getItem("userid") && localStorage.getItem("username")) {
 		login(localStorage.getItem("userid"), localStorage.getItem("username"));
+	} else {
+		logout();
 	}
 
 	return (
